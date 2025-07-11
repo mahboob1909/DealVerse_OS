@@ -1,0 +1,152 @@
+TECHFLOW INDUSTRIES INC.
+AUDITED FINANCIAL STATEMENTS
+For the Year Ended December 31, 2023
+
+INDEPENDENT AUDITOR'S REPORT
+
+To the Shareholders of TechFlow Industries Inc.:
+
+We have audited the accompanying financial statements of TechFlow Industries Inc., which comprise the balance sheet as of December 31, 2023, and the related statements of income, comprehensive income, changes in equity and cash flows for the year then ended, and notes to the financial statements.
+
+MANAGEMENT'S RESPONSIBILITY FOR THE FINANCIAL STATEMENTS
+
+Management is responsible for the preparation and fair presentation of these financial statements in accordance with International Financial Reporting Standards, and for such internal control as management determines is necessary to enable the preparation of financial statements that are free from material misstatement, whether due to fraud or error.
+
+AUDITOR'S RESPONSIBILITY
+
+Our responsibility is to express an opinion on these financial statements based on our audit. We conducted our audit in accordance with International Standards on Auditing.
+
+OPINION
+
+In our opinion, the financial statements present fairly, in all material respects, the financial position of TechFlow Industries Inc. as of December 31, 2023, and its financial performance and cash flows for the year then ended in accordance with International Financial Reporting Standards.
+
+CONSOLIDATED STATEMENT OF INCOME
+For the Year Ended December 31, 2023
+(In thousands of dollars)
+
+                                    2023        2022
+Revenue                           $180,450    $146,750
+Cost of sales                      108,270     95,285
+Gross profit                        72,180     51,465
+
+Operating expenses:
+  Sales and marketing               25,640     22,180
+  Research and development          18,920     15,440
+  General and administrative        12,850     11,220
+  Total operating expenses          57,410     48,840
+
+Operating income                    14,770      2,625
+Interest expense                     1,240      1,580
+Income before taxes                 13,530      1,045
+Income tax expense                   3,383        261
+Net income                         $10,147       $784
+
+Earnings per share:
+  Basic                             $2.15      $0.17
+  Diluted                           $2.08      $0.16
+
+CONSOLIDATED BALANCE SHEET
+As of December 31, 2023
+(In thousands of dollars)
+
+ASSETS                              2023        2022
+Current assets:
+  Cash and cash equivalents        $28,450     $18,220
+  Accounts receivable               32,180      26,440
+  Inventory                         15,680      12,950
+  Prepaid expenses                   3,240       2,890
+  Total current assets              79,550      60,500
+
+Non-current assets:
+  Property, plant and equipment     45,680      42,180
+  Intangible assets                 22,450      18,920
+  Goodwill                          15,680      15,680
+  Other assets                       4,220       3,850
+  Total non-current assets          87,030      80,630
+
+Total assets                      $166,580    $141,130
+
+LIABILITIES AND EQUITY
+Current liabilities:
+  Accounts payable                 $18,450     $15,220
+  Accrued liabilities               12,680      10,450
+  Current portion of long-term debt  5,220       4,880
+  Total current liabilities         36,350      30,550
+
+Non-current liabilities:
+  Long-term debt                    28,450      35,680
+  Deferred tax liabilities           4,220       3,850
+  Other liabilities                  2,180       1,950
+  Total non-current liabilities     34,850      41,480
+
+Total liabilities                   71,200      72,030
+
+Shareholders' equity:
+  Share capital                     45,680      42,180
+  Retained earnings                 49,700      26,920
+  Total shareholders' equity        95,380      69,100
+
+Total liabilities and equity      $166,580    $141,130
+
+CONSOLIDATED STATEMENT OF CASH FLOWS
+For the Year Ended December 31, 2023
+(In thousands of dollars)
+
+                                    2023        2022
+Cash flows from operating activities:
+  Net income                       $10,147       $784
+  Adjustments for:
+    Depreciation and amortization    8,450       7,220
+    Deferred tax expense               370         180
+    Changes in working capital:
+      Accounts receivable           (5,740)     (3,220)
+      Inventory                     (2,730)     (1,880)
+      Prepaid expenses                (350)       (180)
+      Accounts payable               3,230       2,180
+      Accrued liabilities            2,230       1,450
+  Net cash from operating activities 15,607      6,534
+
+Cash flows from investing activities:
+  Purchase of property, plant and equipment (8,950) (6,220)
+  Acquisition of intangible assets  (4,180)     (2,850)
+  Net cash used in investing activities (13,130) (9,070)
+
+Cash flows from financing activities:
+  Proceeds from issuance of shares   3,500       8,450
+  Repayment of long-term debt       (6,890)     (4,220)
+  Dividends paid                    (2,367)         -
+  Net cash from (used in) financing activities (5,757) 4,230
+
+Net increase (decrease) in cash     (3,280)     1,694
+Cash and cash equivalents, beginning of year 18,220 16,526
+Cash and cash equivalents, end of year $28,450 $18,220
+
+NOTES TO FINANCIAL STATEMENTS
+
+1. SIGNIFICANT ACCOUNTING POLICIES
+
+Basis of Preparation
+These financial statements have been prepared in accordance with International Financial Reporting Standards (IFRS) as issued by the International Accounting Standards Board.
+
+Revenue Recognition
+Revenue is recognized when control of goods or services is transferred to customers at an amount that reflects the consideration to which the company expects to be entitled.
+
+2. REVENUE
+
+The company generates revenue primarily from software licensing, subscription services, and professional services.
+
+                                    2023        2022
+Software licensing                 $95,450     $78,220
+Subscription services               68,220      52,180
+Professional services              16,780      16,350
+Total revenue                     $180,450    $146,750
+
+3. COMMITMENTS AND CONTINGENCIES
+
+The company has entered into various operating lease agreements for office space and equipment with total future minimum lease payments of $12.5 million over the next five years.
+
+There are no material legal proceedings pending against the company as of December 31, 2023.
+
+4. SUBSEQUENT EVENTS
+
+On February 15, 2024, the company announced a strategic partnership agreement with a major technology provider, which is expected to contribute additional revenue of approximately $25 million annually starting in fiscal 2024.

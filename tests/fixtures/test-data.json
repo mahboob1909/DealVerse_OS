@@ -1,0 +1,302 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "test@dealverse.com",
+      "password": "password123",
+      "name": "Test User",
+      "role": "Investment Banker",
+      "permissions": ["read", "write", "export", "admin"]
+    },
+    {
+      "id": 2,
+      "email": "analyst@dealverse.com",
+      "password": "password123",
+      "name": "Junior Analyst",
+      "role": "Analyst",
+      "permissions": ["read", "write"]
+    },
+    {
+      "id": 3,
+      "email": "manager@dealverse.com",
+      "password": "password123",
+      "name": "Senior Manager",
+      "role": "Manager",
+      "permissions": ["read", "write", "export", "manage_team"]
+    }
+  ],
+  "deals": [
+    {
+      "id": 1,
+      "name": "Tesla Acquisition",
+      "type": "M&A",
+      "value": 50000000000,
+      "status": "In Progress",
+      "stage": "Due Diligence",
+      "client": "Tesla Inc.",
+      "target": "SolarCity",
+      "industry": "Technology",
+      "region": "North America",
+      "assignedTo": [1, 2],
+      "createdAt": "2024-01-15T10:00:00Z",
+      "updatedAt": "2024-12-15T15:30:00Z"
+    },
+    {
+      "id": 2,
+      "name": "FinTech Startup IPO",
+      "type": "IPO",
+      "value": 2000000000,
+      "status": "Active",
+      "stage": "Preparation",
+      "client": "FinTech Solutions",
+      "industry": "Financial Services",
+      "region": "Europe",
+      "assignedTo": [1, 3],
+      "createdAt": "2024-06-01T09:00:00Z",
+      "updatedAt": "2024-12-10T14:20:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Healthcare Merger",
+      "type": "M&A",
+      "value": 15000000000,
+      "status": "Completed",
+      "stage": "Closed",
+      "client": "MedCorp",
+      "target": "HealthTech Inc.",
+      "industry": "Healthcare",
+      "region": "Asia Pacific",
+      "assignedTo": [2, 3],
+      "createdAt": "2024-03-20T11:30:00Z",
+      "updatedAt": "2024-11-30T16:45:00Z"
+    }
+  ],
+  "documents": [
+    {
+      "id": 1,
+      "name": "Financial Statements Q3 2024.pdf",
+      "type": "Financial",
+      "size": 2048576,
+      "dealId": 1,
+      "uploadedBy": 1,
+      "uploadedAt": "2024-10-15T14:30:00Z",
+      "status": "Analyzed",
+      "analysisResults": {
+        "riskScore": 75,
+        "complianceScore": 90,
+        "keyFindings": [
+          "Revenue growth of 15% YoY",
+          "Debt-to-equity ratio within acceptable range",
+          "Strong cash flow position"
+        ],
+        "entities": {
+          "companies": ["Tesla Inc.", "SolarCity", "Panasonic"],
+          "people": ["Elon Musk", "Lyndon Rive"],
+          "locations": ["Palo Alto", "Buffalo", "Nevada"]
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "Legal Due Diligence Report.docx",
+      "type": "Legal",
+      "size": 1536000,
+      "dealId": 1,
+      "uploadedBy": 2,
+      "uploadedAt": "2024-11-01T09:15:00Z",
+      "status": "Pending Analysis",
+      "analysisResults": null
+    },
+    {
+      "id": 3,
+      "name": "Market Analysis Report.xlsx",
+      "type": "Market Research",
+      "size": 3072000,
+      "dealId": 2,
+      "uploadedBy": 3,
+      "uploadedAt": "2024-11-20T16:45:00Z",
+      "status": "Analyzed",
+      "analysisResults": {
+        "riskScore": 60,
+        "complianceScore": 95,
+        "keyFindings": [
+          "Market size estimated at $50B",
+          "Strong competitive position",
+          "Regulatory environment favorable"
+        ],
+        "entities": {
+          "companies": ["FinTech Solutions", "Stripe", "Square"],
+          "people": ["John Smith", "Sarah Johnson"],
+          "locations": ["London", "Frankfurt", "Dublin"]
+        }
+      }
+    }
+  ],
+  "valuations": [
+    {
+      "id": 1,
+      "dealId": 1,
+      "method": "DCF",
+      "assumptions": {
+        "revenueGrowth": 15,
+        "discountRate": 10,
+        "terminalGrowthRate": 3,
+        "projectionYears": 5
+      },
+      "results": {
+        "enterpriseValue": 45000000000,
+        "equityValue": 42000000000,
+        "sharePrice": 420,
+        "impliedMultiples": {
+          "evRevenue": 8.5,
+          "evEbitda": 25.2,
+          "peRatio": 18.7
+        }
+      },
+      "createdBy": 1,
+      "createdAt": "2024-11-15T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "dealId": 2,
+      "method": "Comparable Companies",
+      "assumptions": {
+        "peerGroup": ["Stripe", "Square", "Adyen"],
+        "multiples": ["EV/Revenue", "EV/EBITDA", "P/E"]
+      },
+      "results": {
+        "enterpriseValue": 1800000000,
+        "equityValue": 1750000000,
+        "sharePrice": 35,
+        "impliedMultiples": {
+          "evRevenue": 12.5,
+          "evEbitda": 30.8,
+          "peRatio": 22.3
+        }
+      },
+      "createdBy": 3,
+      "createdAt": "2024-12-01T14:20:00Z"
+    }
+  ],
+  "activities": [
+    {
+      "id": 1,
+      "type": "document_uploaded",
+      "title": "Financial Statements uploaded",
+      "description": "Q3 2024 financial statements uploaded for Tesla Acquisition",
+      "userId": 1,
+      "dealId": 1,
+      "timestamp": "2024-12-15T14:30:00Z",
+      "metadata": {
+        "documentId": 1,
+        "documentName": "Financial Statements Q3 2024.pdf"
+      }
+    },
+    {
+      "id": 2,
+      "type": "analysis_completed",
+      "title": "Document analysis completed",
+      "description": "AI analysis completed for Financial Statements Q3 2024.pdf",
+      "userId": null,
+      "dealId": 1,
+      "timestamp": "2024-12-15T15:15:00Z",
+      "metadata": {
+        "documentId": 1,
+        "riskScore": 75,
+        "complianceScore": 90
+      }
+    },
+    {
+      "id": 3,
+      "type": "valuation_created",
+      "title": "DCF valuation model created",
+      "description": "New DCF valuation model created for Tesla Acquisition",
+      "userId": 1,
+      "dealId": 1,
+      "timestamp": "2024-12-15T16:00:00Z",
+      "metadata": {
+        "valuationId": 1,
+        "method": "DCF",
+        "equityValue": 42000000000
+      }
+    },
+    {
+      "id": 4,
+      "type": "comment_added",
+      "title": "Comment added to analysis",
+      "description": "Test User added a comment to the risk assessment",
+      "userId": 1,
+      "dealId": 1,
+      "timestamp": "2024-12-15T16:30:00Z",
+      "metadata": {
+        "comment": "This requires further review by the legal team",
+        "section": "risk_assessment"
+      }
+    }
+  ],
+  "notifications": [
+    {
+      "id": 1,
+      "userId": 1,
+      "type": "analysis_complete",
+      "title": "Document analysis completed",
+      "message": "AI analysis for Financial Statements Q3 2024.pdf is now complete",
+      "read": false,
+      "createdAt": "2024-12-15T15:15:00Z",
+      "metadata": {
+        "dealId": 1,
+        "documentId": 1
+      }
+    },
+    {
+      "id": 2,
+      "userId": 2,
+      "type": "mention",
+      "title": "You were mentioned in a comment",
+      "message": "Test User mentioned you in a comment on Tesla Acquisition",
+      "read": false,
+      "createdAt": "2024-12-15T16:35:00Z",
+      "metadata": {
+        "dealId": 1,
+        "commentId": 4
+      }
+    },
+    {
+      "id": 3,
+      "userId": 3,
+      "type": "deal_update",
+      "title": "Deal status updated",
+      "message": "Healthcare Merger has been marked as completed",
+      "read": true,
+      "createdAt": "2024-11-30T16:45:00Z",
+      "metadata": {
+        "dealId": 3,
+        "oldStatus": "In Progress",
+        "newStatus": "Completed"
+      }
+    }
+  ],
+  "settings": {
+    "branding": {
+      "companyName": "DealVerse Investment Bank",
+      "logoUrl": "/images/dealverse-logo.png",
+      "primaryColor": "#1a2332",
+      "secondaryColor": "#0066ff",
+      "accentColor": "#00c896"
+    },
+    "exportDefaults": {
+      "includeHeaders": true,
+      "includeSummary": true,
+      "includeWatermark": false,
+      "defaultFormat": "pdf"
+    },
+    "notifications": {
+      "emailEnabled": true,
+      "pushEnabled": true,
+      "analysisComplete": true,
+      "dealUpdates": true,
+      "mentions": true,
+      "weeklyDigest": true
+    }
+  }
+}

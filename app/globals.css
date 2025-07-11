@@ -1,0 +1,626 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* DealVerse OS Typography Classes */
+  .text-h1 {
+    @apply text-4xl font-bold leading-tight;
+  }
+
+  .text-h2 {
+    @apply text-2xl font-semibold leading-tight;
+  }
+
+  .text-h3 {
+    @apply text-lg font-semibold leading-tight;
+  }
+
+  .text-body {
+    @apply text-sm leading-relaxed;
+  }
+
+  .text-caption {
+    @apply text-xs leading-normal;
+  }
+
+  /* DealVerse OS Component Classes */
+  .dealverse-card {
+    @apply bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+
+  .dealverse-button-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition-colors duration-200;
+  }
+
+  .dealverse-button-secondary {
+    @apply bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium px-4 py-2 rounded-md transition-colors duration-200;
+  }
+}
+
+@layer utilities {
+  /* DealVerse OS Color Utilities */
+  .bg-dealverse-navy { background-color: var(--dealverse-navy); }
+  .bg-dealverse-blue { background-color: var(--dealverse-blue); }
+  .bg-dealverse-green { background-color: var(--dealverse-green); }
+  .bg-dealverse-amber { background-color: var(--dealverse-amber); }
+  .bg-dealverse-coral { background-color: var(--dealverse-coral); }
+  .bg-dealverse-light-gray { background-color: var(--dealverse-light-gray); }
+  .bg-dealverse-medium-gray { background-color: var(--dealverse-medium-gray); }
+  .bg-dealverse-dark-gray { background-color: var(--dealverse-dark-gray); }
+
+  .text-dealverse-navy { color: var(--dealverse-navy); }
+  .text-dealverse-blue { color: var(--dealverse-blue); }
+  .text-dealverse-green { color: var(--dealverse-green); }
+  .text-dealverse-amber { color: var(--dealverse-amber); }
+  .text-dealverse-coral { color: var(--dealverse-coral); }
+  .text-dealverse-light-gray { color: var(--dealverse-light-gray); }
+  .text-dealverse-medium-gray { color: var(--dealverse-medium-gray); }
+  .text-dealverse-dark-gray { color: var(--dealverse-dark-gray); }
+
+  .border-dealverse-navy { border-color: var(--dealverse-navy); }
+  .border-dealverse-blue { border-color: var(--dealverse-blue); }
+  .border-dealverse-green { border-color: var(--dealverse-green); }
+
+  /* DealVerse OS Spacing Utilities */
+  .p-unit-1 { padding: 0.5rem; }
+  .p-unit-2 { padding: 1rem; }
+  .p-unit-3 { padding: 1.5rem; }
+  .p-unit-4 { padding: 2rem; }
+
+  .m-unit-1 { margin: 0.5rem; }
+  .m-unit-2 { margin: 1rem; }
+  .m-unit-3 { margin: 1.5rem; }
+  .m-unit-4 { margin: 2rem; }
+
+  .gap-unit-1 { gap: 0.5rem; }
+  .gap-unit-2 { gap: 1rem; }
+  .gap-unit-3 { gap: 1.5rem; }
+  .gap-unit-4 { gap: 2rem; }
+}
+
+@layer base {
+  :root {
+    /* DealVerse OS Investment Banking Color Palette */
+    --background: 0 0% 100%;
+    --foreground: 210 11% 15%; /* Deep Navy Blue for text */
+    --card: 0 0% 100%;
+    --card-foreground: 210 11% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 11% 15%;
+
+    /* Primary: Deep Navy Blue (#1a2332) */
+    --primary: 210 29% 15%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Secondary: Electric Blue (#0066ff) */
+    --secondary: 220 100% 50%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Accent: Emerald Green (#00c896) */
+    --accent: 165 100% 39%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Success: Emerald Green */
+    --success: 165 100% 39%;
+    --success-foreground: 0 0% 98%;
+
+    /* Warning: Amber (#ff9500) */
+    --warning: 36 100% 50%;
+    --warning-foreground: 0 0% 98%;
+
+    /* Destructive: Coral Red (#ff4757) */
+    --destructive: 354 100% 64%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Neutral colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 210 29% 15%;
+    --radius: 0.5rem;
+
+    /* DealVerse OS Direct Color Variables */
+    --dealverse-navy: #1a2332;
+    --dealverse-blue: #0066ff;
+    --dealverse-green: #00c896;
+    --dealverse-amber: #ff9500;
+    --dealverse-coral: #ff4757;
+    --dealverse-light-gray: #f8f9fa;
+    --dealverse-medium-gray: #6c757d;
+    --dealverse-dark-gray: #343a40;
+  }
+
+  .dark {
+    /* Dark mode with navy blue base */
+    --background: 210 29% 15%; /* Deep Navy Blue */
+    --foreground: 210 40% 98%;
+    --card: 210 25% 18%;
+    --card-foreground: 210 40% 98%;
+    --popover: 210 25% 18%;
+    --popover-foreground: 210 40% 98%;
+
+    /* Primary: Lighter navy for dark mode */
+    --primary: 210 25% 25%;
+    --primary-foreground: 210 40% 98%;
+
+    /* Secondary: Electric Blue (same) */
+    --secondary: 220 100% 50%;
+    --secondary-foreground: 0 0% 98%;
+
+    /* Accent: Emerald Green (same) */
+    --accent: 165 100% 39%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Success: Emerald Green */
+    --success: 165 100% 39%;
+    --success-foreground: 0 0% 98%;
+
+    /* Warning: Amber */
+    --warning: 36 100% 50%;
+    --warning-foreground: 0 0% 98%;
+
+    /* Destructive: Coral Red */
+    --destructive: 354 100% 64%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Dark mode neutrals */
+    --muted: 210 25% 20%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --border: 210 25% 20%;
+    --input: 210 25% 20%;
+    --ring: 220 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Typography Hierarchy - DealVerse OS Design System */
+  /* H1 (32px): Page titles and main headings */
+  h1, .text-h1 {
+    font-size: 2rem; /* 32px */
+    font-weight: 700; /* bold */
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  }
+
+  /* H2 (24px): Section headers and module titles */
+  h2, .text-h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 600; /* semibold */
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  }
+
+  /* H3 (18px): Card titles and subsection headers */
+  h3, .text-h3 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 500; /* medium */
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  }
+
+  /* Body (14px): General content and descriptions */
+  body, p, .text-body {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 400; /* normal */
+    line-height: 1.5;
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  }
+
+  /* Caption (12px): Metadata and secondary information */
+  .text-caption, small, .text-xs {
+    font-size: 0.75rem; /* 12px */
+    font-weight: 400; /* normal */
+    line-height: 1.4;
+    font-family: var(--font-inter), Inter, system-ui, sans-serif;
+  }
+
+  /* Financial data and code - JetBrains Mono */
+  .text-mono, .font-mono, code, pre, .financial-data {
+    font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+    font-feature-settings: "liga" 0, "calt" 0;
+  }
+
+  /* DealVerse OS 8px Base Spacing System */
+  /* Margin utilities */
+  .m-unit-1 { margin: 0.5rem; }     /* 8px */
+  .m-unit-2 { margin: 1rem; }       /* 16px */
+  .m-unit-3 { margin: 1.5rem; }     /* 24px */
+  .m-unit-4 { margin: 2rem; }       /* 32px */
+  .m-unit-5 { margin: 2.5rem; }     /* 40px */
+  .m-unit-6 { margin: 3rem; }       /* 48px */
+  .m-unit-8 { margin: 4rem; }       /* 64px */
+
+  /* Padding utilities */
+  .p-unit-1 { padding: 0.5rem; }    /* 8px */
+  .p-unit-2 { padding: 1rem; }      /* 16px */
+  .p-unit-3 { padding: 1.5rem; }    /* 24px */
+  .p-unit-4 { padding: 2rem; }      /* 32px */
+  .p-unit-5 { padding: 2.5rem; }    /* 40px */
+  .p-unit-6 { padding: 3rem; }      /* 48px */
+  .p-unit-8 { padding: 4rem; }      /* 64px */
+
+  /* Gap utilities for flexbox and grid */
+  .gap-unit-1 { gap: 0.5rem; }      /* 8px */
+  .gap-unit-2 { gap: 1rem; }        /* 16px */
+  .gap-unit-3 { gap: 1.5rem; }      /* 24px */
+  .gap-unit-4 { gap: 2rem; }        /* 32px */
+  .gap-unit-5 { gap: 2.5rem; }      /* 40px */
+  .gap-unit-6 { gap: 3rem; }        /* 48px */
+
+  /* Directional spacing */
+  .mt-unit-1 { margin-top: 0.5rem; }
+  .mb-unit-1 { margin-bottom: 0.5rem; }
+  .ml-unit-1 { margin-left: 0.5rem; }
+  .mr-unit-1 { margin-right: 0.5rem; }
+  .pt-unit-1 { padding-top: 0.5rem; }
+  .pb-unit-1 { padding-bottom: 0.5rem; }
+  .pl-unit-1 { padding-left: 0.5rem; }
+  .pr-unit-1 { padding-right: 0.5rem; }
+
+  /* DealVerse OS Enhanced Micro-interactions */
+
+  /* Card Interactions */
+  .dealverse-card {
+    transition: all 300ms ease-in-out;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  .dealverse-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(26, 35, 50, 0.1), 0 10px 10px -5px rgba(26, 35, 50, 0.04);
+  }
+
+  .dealverse-card-interactive {
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+    border-radius: 0.75rem;
+  }
+
+  .dealverse-card-interactive:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 20px 40px -10px rgba(0, 102, 255, 0.15);
+  }
+
+  .dealverse-card-interactive:active {
+    transform: translateY(-2px) scale(1.005);
+    transition: all 150ms ease-in-out;
+  }
+
+  /* Button Interactions */
+  .dealverse-button {
+    transition: all 300ms ease-in-out;
+    border-radius: 0.5rem;
+  }
+
+  .dealverse-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 102, 255, 0.15);
+  }
+
+  .dealverse-button:active {
+    transform: translateY(0);
+    transition: all 150ms ease-in-out;
+  }
+
+  .dealverse-button-glow:hover {
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.4);
+  }
+
+  /* Enhanced Accessibility Features - WCAG 2.1 AA Compliance */
+
+  /* Focus States */
+  .dealverse-focus:focus {
+    outline: 2px solid #0066ff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.2);
+  }
+
+  .dealverse-focus:focus-visible {
+    outline: 2px solid #0066ff;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.2);
+  }
+
+  .dealverse-focus:focus:not(:focus-visible) {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* High Contrast Mode Support */
+  @media (prefers-contrast: high) {
+    .dealverse-card {
+      border: 2px solid;
+    }
+
+    .dealverse-button {
+      border: 2px solid;
+    }
+  }
+
+  /* Reduced Motion Support */
+  @media (prefers-reduced-motion: reduce) {
+    .dealverse-card,
+    .dealverse-card-interactive,
+    .dealverse-button,
+    .dealverse-hover-lift {
+      transition: none;
+      animation: none;
+    }
+
+    .dealverse-card-interactive:hover {
+      transform: none;
+    }
+
+    .dealverse-button:hover {
+      transform: none;
+    }
+  }
+
+  /* Screen Reader Only Content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* Skip Links */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #0066ff;
+    color: white;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+
+  /* Keyboard Navigation Indicators */
+  .keyboard-navigation button:focus,
+  .keyboard-navigation a:focus,
+  .keyboard-navigation input:focus,
+  .keyboard-navigation select:focus,
+  .keyboard-navigation textarea:focus {
+    outline: 3px solid #0066ff;
+    outline-offset: 2px;
+  }
+
+  /* Loading States */
+  .dealverse-loading {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dealverse-loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: dealverse-shimmer 1.5s infinite;
+  }
+
+  @keyframes dealverse-shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* Success Animation */
+  .dealverse-success {
+    animation: dealverse-success-pulse 0.6s ease-in-out;
+  }
+
+  @keyframes dealverse-success-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  /* Additional Micro-interactions */
+
+  /* Fade In Animation */
+  .dealverse-fade-in {
+    animation: dealverse-fade-in 0.5s ease-in-out;
+  }
+
+  @keyframes dealverse-fade-in {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slide In Animation */
+  .dealverse-slide-in {
+    animation: dealverse-slide-in 0.3s ease-out;
+  }
+
+  @keyframes dealverse-slide-in {
+    0% { transform: translateX(-20px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+
+  /* Bounce Animation */
+  .dealverse-bounce {
+    animation: dealverse-bounce 0.6s ease-in-out;
+  }
+
+  @keyframes dealverse-bounce {
+    0%, 20%, 53%, 80%, 100% { transform: translate3d(0, 0, 0); }
+    40%, 43% { transform: translate3d(0, -8px, 0); }
+    70% { transform: translate3d(0, -4px, 0); }
+    90% { transform: translate3d(0, -2px, 0); }
+  }
+
+  /* Pulse Animation */
+  .dealverse-pulse {
+    animation: dealverse-pulse 2s infinite;
+  }
+
+  @keyframes dealverse-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(0, 102, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(0, 102, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(0, 102, 255, 0); }
+  }
+
+  /* Subtle Parallax Effect */
+  .dealverse-parallax {
+    transform: translateZ(0);
+    transition: transform 0.3s ease-out;
+  }
+
+  .dealverse-parallax:hover {
+    transform: translateZ(0) translateY(-2px) scale(1.02);
+  }
+
+  /* Glow Effect */
+  .dealverse-glow {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dealverse-glow::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.1), transparent);
+    transition: left 0.5s ease-in-out;
+  }
+
+  .dealverse-glow:hover::before {
+    left: 100%;
+  }
+
+  /* Stagger Animation for Lists */
+  .dealverse-stagger > * {
+    animation: dealverse-fade-in 0.5s ease-in-out;
+    animation-fill-mode: both;
+  }
+
+  .dealverse-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+  .dealverse-stagger > *:nth-child(2) { animation-delay: 0.2s; }
+  .dealverse-stagger > *:nth-child(3) { animation-delay: 0.3s; }
+  .dealverse-stagger > *:nth-child(4) { animation-delay: 0.4s; }
+  .dealverse-stagger > *:nth-child(5) { animation-delay: 0.5s; }
+  .dealverse-stagger > *:nth-child(6) { animation-delay: 0.6s; }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #0066ff;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #0052cc;
+  }
+}
+
+/* Landing Page Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out;
+}
+
+.animate-fade-in-up.delay-200 {
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.animate-fade-in-up.delay-400 {
+  animation-delay: 0.4s;
+  animation-fill-mode: both;
+}
+
+.animate-fade-in-up.delay-600 {
+  animation-delay: 0.6s;
+  animation-fill-mode: both;
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+}
+
+/* Improved dark mode text contrast */
+.dark .text-dealverse-light-gray {
+  color: #e2e8f0;
+}
+
+.dark .text-white {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
