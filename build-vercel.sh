@@ -97,8 +97,9 @@ run_build() {
 echo "Node.js version: $(node --version)"
 echo "npm version: $(npm --version)"
 
-# Install dependencies
-install_dependencies
+# Ensure dependencies are properly installed with warning suppression
+echo "Ensuring clean dependency installation..."
+npm install --silent --no-audit --no-fund --loglevel=silent --legacy-peer-deps 2>/dev/null || npm install --silent --legacy-peer-deps
 
 # Run the build
 run_build

@@ -2,7 +2,7 @@
   "framework": "nextjs",
   "buildCommand": "bash build-vercel.sh",
   "outputDirectory": ".next",
-  "installCommand": "npm ci --silent --no-audit --no-fund --loglevel=silent --no-warnings --no-optional --no-progress --no-update-notifier 2>/dev/null || npm install --silent --no-audit --no-fund --loglevel=silent --no-warnings --no-optional --no-progress --no-update-notifier 2>/dev/null || npm install --silent --no-audit --no-fund --loglevel=error",
+  "installCommand": "npm ci --silent 2>/dev/null || npm install --silent",
   "devCommand": "npm run dev",
   "env": {
     "NPM_CONFIG_AUDIT": "false",
