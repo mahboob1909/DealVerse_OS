@@ -2,6 +2,12 @@
   "framework": "nextjs",
   "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "installCommand": "npm install",
-  "devCommand": "npm run dev"
+  "installCommand": "npm install --silent --no-audit --no-fund --loglevel=error",
+  "devCommand": "npm run dev",
+  "env": {
+    "NPM_CONFIG_AUDIT": "false",
+    "NPM_CONFIG_FUND": "false",
+    "NPM_CONFIG_LOGLEVEL": "error",
+    "NPM_CONFIG_PROGRESS": "false"
+  }
 }
