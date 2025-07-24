@@ -1,8 +1,8 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build",
+  "buildCommand": "bash build-vercel.sh",
   "outputDirectory": ".next",
-  "installCommand": "npm install --silent --no-audit --no-fund --loglevel=silent --no-warnings --no-optional --no-progress --no-update-notifier 2>/dev/null || npm install --silent --no-audit --no-fund --loglevel=error",
+  "installCommand": "npm ci --silent --no-audit --no-fund --loglevel=silent --no-warnings --no-optional --no-progress --no-update-notifier 2>/dev/null || npm install --silent --no-audit --no-fund --loglevel=silent --no-warnings --no-optional --no-progress --no-update-notifier 2>/dev/null || npm install --silent --no-audit --no-fund --loglevel=error",
   "devCommand": "npm run dev",
   "env": {
     "NPM_CONFIG_AUDIT": "false",
@@ -12,13 +12,16 @@
     "NPM_CONFIG_UPDATE_NOTIFIER": "false",
     "NPM_CONFIG_OPTIONAL": "false",
     "NPM_CONFIG_WARNINGS": "false",
+    "NPM_CONFIG_LEGACY_PEER_DEPS": "true",
     "DISABLE_OPENCOLLECTIVE": "true",
     "ADBLOCK": "true",
-    "NODE_OPTIONS": "--no-deprecation --no-warnings --disable-warning=ExperimentalWarning",
+    "NODE_OPTIONS": "--no-deprecation --no-warnings --disable-warning=ExperimentalWarning --max-old-space-size=4096",
     "NODE_NO_WARNINGS": "1",
     "CI": "true",
     "SUPPRESS_NO_CONFIG_WARNING": "true",
-    "NO_UPDATE_NOTIFIER": "true"
+    "NO_UPDATE_NOTIFIER": "true",
+    "NEXT_TELEMETRY_DISABLED": "1",
+    "HUSKY": "0"
   },
   "functions": {
     "app/**": {
