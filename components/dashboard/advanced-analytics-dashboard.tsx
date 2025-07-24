@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -58,11 +58,7 @@ export function AdvancedAnalyticsDashboard() {
   const [selectedPeriod, setSelectedPeriod] = useState('90');
   const [selectedFocus, setSelectedFocus] = useState('all');
 
-  useEffect(() => {
-    fetchAdvancedAnalytics();
-  }, [selectedPeriod]);
-
-  const fetchAdvancedAnalytics = async () => {
+  const fetchAdvancedAnalytics = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/v1/analytics/advanced?days=${selectedPeriod}`, {
@@ -83,7 +79,11 @@ export function AdvancedAnalyticsDashboard() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedPeriod]);
+
+  useEffect(() => {
+    fetchAdvancedAnalytics();
+  }, [fetchAdvancedAnalytics]);
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('en-US', {

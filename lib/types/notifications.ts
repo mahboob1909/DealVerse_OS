@@ -256,7 +256,6 @@ export interface UseNotificationsReturn {
   
   // Real-time
   isConnected: boolean;
-  connectionError: string | null;
 }
 
 export interface NotificationContextType {

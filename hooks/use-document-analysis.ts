@@ -103,7 +103,7 @@ export function useDocumentAnalysis() {
           throw new Error(resultResponse.error);
         }
 
-        const result = resultResponse.data;
+        const result = resultResponse.data as DocumentAnalysisResult;
         
         if (result.status === 'completed') {
           return result;
@@ -144,7 +144,7 @@ export function useDocumentAnalysis() {
         throw new Error(response.error);
       }
 
-      const result = response.data;
+      const result = response.data as DocumentAnalysisResult;
       setAnalysisResults(prev => ({
         ...prev,
         [documentId]: result
@@ -174,7 +174,7 @@ export function useDocumentAnalysis() {
         throw new Error(response.error);
       }
 
-      const assessment = response.data;
+      const assessment = response.data as RiskAssessment;
       setRiskAssessments(prev => [assessment, ...prev]);
 
       return assessment;
@@ -198,8 +198,8 @@ export function useDocumentAnalysis() {
         throw new Error(response.error);
       }
 
-      setAnalytics(response.data);
-      return response.data;
+      setAnalytics(response.data as DocumentAnalytics);
+      return response.data as DocumentAnalytics;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch analytics';
       setError(errorMessage);
@@ -220,8 +220,8 @@ export function useDocumentAnalysis() {
         throw new Error(response.error);
       }
 
-      setRiskAssessments(response.data || []);
-      return response.data;
+      setRiskAssessments((response.data || []) as RiskAssessment[]);
+      return (response.data || []) as RiskAssessment[];
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch risk assessments';
       setError(errorMessage);
@@ -242,7 +242,7 @@ export function useDocumentAnalysis() {
         throw new Error(response.error);
       }
 
-      return response.data;
+      return response.data as any;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Categorization failed';
       setError(errorMessage);
@@ -267,7 +267,7 @@ export function useDocumentAnalysis() {
         throw new Error(response.error);
       }
 
-      return response.data;
+      return response.data as any;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch high-risk documents';
       setError(errorMessage);

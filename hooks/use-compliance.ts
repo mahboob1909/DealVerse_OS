@@ -196,7 +196,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      setDashboard(response.data || response);
+      setDashboard((response.data || response) as ComplianceDashboardSummary);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch compliance dashboard');
     } finally {
@@ -213,7 +213,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      setCategories(response.data || response);
+      setCategories((response.data || response) as ComplianceCategory[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch compliance categories');
     } finally {
@@ -234,7 +234,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      setRequirements(response.data || response);
+      setRequirements((response.data || response) as ComplianceRequirement[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch compliance requirements');
     } finally {
@@ -255,7 +255,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      setAssessments(response.data || response);
+      setAssessments((response.data || response) as ComplianceAssessment[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch compliance assessments');
     } finally {
@@ -272,7 +272,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      setRegulatoryUpdates(response.data || response);
+      setRegulatoryUpdates((response.data || response) as RegulatoryUpdate[]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch regulatory updates');
     } finally {
@@ -310,7 +310,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       throw new Error(response.error);
     }
     await fetchCategories(); // Refresh list
-    return response.data || response;
+    return (response.data || response) as ComplianceCategory;
   };
 
   const updateCategory = async (id: string, data: any): Promise<ComplianceCategory> => {
@@ -319,7 +319,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       throw new Error(response.error);
     }
     await fetchCategories(); // Refresh list
-    return response.data || response;
+    return (response.data || response) as ComplianceCategory;
   };
 
   const deleteCategory = async (id: string): Promise<void> => {
@@ -369,7 +369,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
         throw new Error(response.error);
       }
       await fetchRequirements(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as ComplianceRequirement;
     },
 
     updateRequirement: async (id: string, data: any): Promise<ComplianceRequirement> => {
@@ -378,7 +378,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
         throw new Error(response.error);
       }
       await fetchRequirements(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as ComplianceRequirement;
     },
 
     deleteRequirement: async (id: string): Promise<void> => {
@@ -396,7 +396,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
         throw new Error(response.error);
       }
       await fetchAssessments(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as ComplianceAssessment;
     },
 
     updateAssessment: async (id: string, data: any): Promise<ComplianceAssessment> => {
@@ -405,7 +405,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
         throw new Error(response.error);
       }
       await fetchAssessments(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as ComplianceAssessment;
     },
 
     // CRUD operations for regulatory updates
@@ -415,7 +415,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
         throw new Error(response.error);
       }
       await fetchRegulatoryUpdates(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as RegulatoryUpdate;
     },
 
     updateRegulatoryUpdate: async (id: string, data: any): Promise<RegulatoryUpdate> => {
@@ -424,7 +424,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
         throw new Error(response.error);
       }
       await fetchRegulatoryUpdates(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as RegulatoryUpdate;
     },
 
     markUpdateAsReviewed: async (id: string, notes?: string): Promise<void> => {
@@ -441,7 +441,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      return response.data || response;
+      return (response.data || response) as ComplianceRequirement[];
     },
 
     generateAuditTrail: async (params: any): Promise<any> => {
@@ -449,7 +449,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      return response.data || response;
+      return (response.data || response) as any;
     },
 
     runComplianceCheck: async (categoryId?: string): Promise<any> => {
@@ -457,7 +457,7 @@ export function useCompliance(options: UseComplianceOptions = {}): UseCompliance
       if (response.error) {
         throw new Error(response.error);
       }
-      return response.data || response;
+      return (response.data || response) as any;
     },
   };
 }

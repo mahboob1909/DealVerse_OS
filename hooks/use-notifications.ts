@@ -105,7 +105,7 @@ export function useNotifications(options: UseNotificationsOptions = {}): UseNoti
   }, [options.max_notifications]);
 
   // WebSocket connection for real-time updates
-  const { isConnected, sendMessage, connectionError } = useWebSocket({
+  const { isConnected, sendMessage } = useWebSocket({
     onMessage: handleWebSocketMessage,
     onError: (error) => {
       console.error('WebSocket notification error:', error);
@@ -405,7 +405,6 @@ export function useNotifications(options: UseNotificationsOptions = {}): UseNoti
     updatePreferences,
 
     // Connection
-    isConnected,
-    connectionError
+    isConnected
   };
 }

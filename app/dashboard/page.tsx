@@ -232,9 +232,9 @@ function DashboardPage() {
               {formatCurrency(kpiData?.totalRevenue || 0)}
             </div>
             <div className="flex items-center space-x-unit-1 text-caption">
-              <TrendingUp className={`h-4 w-4 ${kpiData?.revenueGrowth >= 0 ? 'text-dealverse-green' : 'text-dealverse-coral'}`} />
-              <span className={`font-semibold ${kpiData?.revenueGrowth >= 0 ? 'text-dealverse-green' : 'text-dealverse-coral'}`}>
-                {kpiData?.revenueGrowth >= 0 ? '+' : ''}{formatPercentage(kpiData?.revenueGrowth || 0)}
+              <TrendingUp className={`h-4 w-4 ${(kpiData?.revenueGrowth ?? 0) >= 0 ? 'text-dealverse-green' : 'text-dealverse-coral'}`} />
+              <span className={`font-semibold ${(kpiData?.revenueGrowth ?? 0) >= 0 ? 'text-dealverse-green' : 'text-dealverse-coral'}`}>
+                {(kpiData?.revenueGrowth ?? 0) >= 0 ? '+' : ''}{formatPercentage(kpiData?.revenueGrowth || 0)}
               </span>
               <span className="text-dealverse-medium-gray dark:text-dealverse-light-gray">vs last month</span>
             </div>
@@ -307,7 +307,15 @@ function DashboardPage() {
           </CardHeader>
           <CardContent>
             <RecentDeals
-              deals={dashboardAnalytics?.recent_deals}
+              deals={dashboardAnalytics?.recent_deals?.map(deal => ({
+                id: deal.id,
+                clientName: deal.client_name,
+                projectTitle: deal.project_title,
+                status: deal.status as "negotiation" | "proposal" | "follow-up" | "won" | "lost",
+                fallbackInitials: deal.client_name?.split(' ').map(n => n[0]).join('').toUpperCase() || 'UN',
+                value: deal.value,
+                createdAt: new Date(deal.created_at)
+              }))}
               useHook={!dashboardAnalytics?.recent_deals}
               autoRefresh={true}
               refreshInterval={60000}

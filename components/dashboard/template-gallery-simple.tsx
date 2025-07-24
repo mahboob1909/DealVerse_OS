@@ -46,7 +46,7 @@ export function TemplateGallery({
     const matchesSearch = template.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          template.description?.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = !categoryFilter || template.category === categoryFilter;
-    const matchesFeatured = !featuredOnly || template.featured;
+    const matchesFeatured = !featuredOnly || template.is_featured;
     
     return matchesSearch && matchesCategory && matchesFeatured;
   });
@@ -161,7 +161,7 @@ export function TemplateGallery({
                     {getCategoryIcon(template.category || '')}
                     <CardTitle className="text-lg">{template.name}</CardTitle>
                   </div>
-                  {template.featured && (
+                  {template.is_featured && (
                     <Badge variant="secondary" className="gap-1">
                       <Star className="h-3 w-3" />
                       Featured

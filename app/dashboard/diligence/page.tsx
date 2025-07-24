@@ -36,6 +36,7 @@ import { useAuth } from "@/lib/auth-context";
 import { DocumentPreview } from "@/components/dashboard/document-preview";
 import { AIDocumentAnalysis } from "@/components/dashboard/ai-document-analysis";
 import { useDocumentAnalysis, type DocumentAnalytics, type RiskAssessment } from "@/hooks/use-document-analysis";
+import { useToast } from "@/hooks/use-toast";
 
 // Document categories for organization
 const DOCUMENT_CATEGORIES = [
@@ -63,6 +64,7 @@ const STATUS_CONFIG = {
 };
 export default function DiligenceNavigatorPage() {
   const { user } = useAuth();
+  const { toast } = useToast();
   const {
     documents,
     loading: documentsLoading,
@@ -91,7 +93,22 @@ export default function DiligenceNavigatorPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [highRiskDocs, setHighRiskDocs] = useState<Document[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Load high-risk documents
+  const loadHighRiskDocuments = useCallback(async () => {
+    try {
+      // Filter documents with high risk scores
+      const highRisk = documents.filter(doc => {
+        const riskScore = parseInt(doc.risk_score || '0');
+        return riskScore >= 70;
+      });
+      setHighRiskDocs(highRisk || []);
+    } catch (error) {
+      console.error('Failed to load high-risk documents:', error);
+    }
+  }, [documents]);
 
   // Load data on component mount
   useEffect(() => {
@@ -101,17 +118,16 @@ export default function DiligenceNavigatorPage() {
       fetchRiskAssessments();
       loadHighRiskDocuments();
     }
-  }, [user?.organization_id, fetchDocuments, fetchAnalytics, fetchRiskAssessments]);
+  }, [user?.organization_id, fetchDocuments, fetchAnalytics, fetchRiskAssessments, loadHighRiskDocuments]);
 
-  // Load high-risk documents
-  const loadHighRiskDocuments = useCallback(async () => {
-    try {
-      const highRisk = await getHighRiskDocuments({ risk_threshold: 70 });
-      setHighRiskDocs(highRisk || []);
-    } catch (error) {
-      console.error('Failed to load high-risk documents:', error);
-    }
-  }, [getHighRiskDocuments]);
+  // Mock statistics
+  const stats = {
+    documentsReviewed: documents.filter(doc => doc.review_status === 'completed').length,
+    totalDocuments: documents.length,
+    riskFlags: documents.filter(doc => parseInt(doc.risk_score || '0') >= 70).length,
+    missingDocs: 3, // Mock value
+    completionPercentage: documents.length > 0 ? Math.round((documents.filter(doc => doc.review_status === 'completed').length / documents.length) * 100) : 0
+  };
 
   // Filter documents based on search and category
   const filteredDocuments = documents.filter(doc => {
@@ -134,11 +150,13 @@ export default function DiligenceNavigatorPage() {
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
+    setIsUploading(true);
     try {
       for (const file of Array.from(files)) {
         await uploadDocument(file, {
-          category: selectedCategory !== 'all' ? selectedCategory : 'other',
-          description: `Uploaded for due diligence review`
+          title: file.name,
+          document_type: selectedCategory !== 'all' ? selectedCategory : 'other',
+          is_confidential: false
         });
       }
 
@@ -150,8 +168,20 @@ export default function DiligenceNavigatorPage() {
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
+
+      toast({
+        title: "Upload Successful",
+        description: `${files.length} document(s) uploaded successfully`,
+      });
     } catch (error) {
       console.error('Upload failed:', error);
+      toast({
+        title: "Upload Failed",
+        description: "Failed to upload documents. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -192,8 +222,8 @@ export default function DiligenceNavigatorPage() {
   // Get document status
   const getDocumentStatus = (document: Document): keyof typeof STATUS_CONFIG => {
     // This would typically come from analysis results
-    // For now, use metadata or default to pending
-    return (document.metadata?.analysis_status as keyof typeof STATUS_CONFIG) || 'pending';
+    // For now, use review_status or default to pending
+    return (document.review_status as keyof typeof STATUS_CONFIG) || 'pending';
   };
 
   // Format file size
@@ -633,7 +663,7 @@ export default function DiligenceNavigatorPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-dealverse-navy">
-              {(loading || analyticsLoading) ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.documentsReviewed}
+              {documentsLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.documentsReviewed}
             </div>
             <p className="text-xs text-dealverse-medium-gray">of {stats.totalDocuments} total</p>
           </CardContent>
@@ -646,7 +676,7 @@ export default function DiligenceNavigatorPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-dealverse-navy">
-              {(loading || analyticsLoading) ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.riskFlags}
+              {documentsLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.riskFlags}
             </div>
             <p className="text-xs text-dealverse-medium-gray">Require attention</p>
           </CardContent>
@@ -659,7 +689,7 @@ export default function DiligenceNavigatorPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-dealverse-navy">
-              {(loading || analyticsLoading) ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.missingDocs}
+              {documentsLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : stats.missingDocs}
             </div>
             <p className="text-xs text-dealverse-medium-gray">Critical items</p>
           </CardContent>
@@ -672,7 +702,7 @@ export default function DiligenceNavigatorPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-dealverse-navy">
-              {(loading || analyticsLoading) ? <Loader2 className="h-6 w-6 animate-spin" /> : `${stats.completionPercentage}%`}
+              {documentsLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : `${stats.completionPercentage}%`}
             </div>
             <p className="text-xs text-dealverse-medium-gray">Overall progress</p>
           </CardContent>
@@ -715,9 +745,9 @@ export default function DiligenceNavigatorPage() {
                 variant="outline"
                 size="sm"
                 onClick={fetchDocuments}
-                disabled={loading}
+                disabled={documentsLoading}
               >
-                {loading ? (
+                {documentsLoading ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (
                   <RefreshCw className="h-4 w-4 mr-2" />
@@ -728,10 +758,10 @@ export default function DiligenceNavigatorPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {error && (
+          {documentsError && (
             <Alert className="mb-4">
               <AlertTriangle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription>{documentsError}</AlertDescription>
             </Alert>
           )}
 

@@ -60,7 +60,7 @@ export function TemplateGallery({
   });
 
   // Get unique categories
-  const categories = Array.from(new Set(templates.map(t => t.category).filter(Boolean)));
+  const categories = Array.from(new Set(templates.map(t => t.category).filter(Boolean))) as string[];
 
   const getCategoryIcon = (category: string) => {
     switch (category?.toLowerCase()) {

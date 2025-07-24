@@ -49,7 +49,7 @@ export function CollaborativeEditor({
   autoSave = true,
   autoSaveInterval = 30000 // 30 seconds
 }: CollaborativeEditorProps) {
-  const [content, setContent] = useState(document.content || '');
+  const [content, setContent] = useState((document as any).content || document.description || '');
   const [isEditing, setIsEditing] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -101,6 +101,8 @@ export function CollaborativeEditor({
       // Create document edit for collaboration
       applyEdit({
         document_id: document.id,
+        user_id: currentUserId,
+        user_name: currentUser?.user_name || 'Unknown User',
         edit_type: 'replace',
         position: { start: 0, end: content.length },
         content: newContent,
@@ -124,7 +126,7 @@ export function CollaborativeEditor({
         }
       }, autoSaveInterval);
     }
-  }, [content, document.id, readOnly, autoSave, onSave, autoSaveInterval, applyEdit]);
+  }, [content, document.id, readOnly, autoSave, onSave, autoSaveInterval, applyEdit, currentUser?.user_name, currentUserId]);
 
   // Manual save
   const handleSave = async () => {
@@ -197,7 +199,7 @@ export function CollaborativeEditor({
         <div className="flex items-center gap-3">
           <FileText className="h-5 w-5 text-dealverse-blue" />
           <div>
-            <h2 className="font-semibold text-dealverse-navy">{document.name}</h2>
+            <h2 className="font-semibold text-dealverse-navy">{document.title || document.filename}</h2>
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <span>
                 {readOnly ? 'Read-only' : isEditing ? 'Editing' : 'Viewing'}

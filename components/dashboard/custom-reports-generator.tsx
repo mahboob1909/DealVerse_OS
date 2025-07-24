@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -78,12 +78,6 @@ export function CustomReportsGenerator() {
     fetchTemplates();
   }, []);
 
-  useEffect(() => {
-    if (selectedTemplate) {
-      fetchTemplateDetails();
-    }
-  }, [selectedTemplate]);
-
   const fetchTemplates = async () => {
     try {
       setLoading(true);
@@ -107,7 +101,7 @@ export function CustomReportsGenerator() {
     }
   };
 
-  const fetchTemplateDetails = async () => {
+  const fetchTemplateDetails = useCallback(async () => {
     try {
       // Fetch sections
       const sectionsResponse = await fetch(`/api/v1/reports/templates/${selectedTemplate}/sections`, {
@@ -145,7 +139,13 @@ export function CustomReportsGenerator() {
       console.error('Error fetching template details:', error);
       toast.error('Failed to load template details');
     }
-  };
+  }, [selectedTemplate, templates]);
+
+  useEffect(() => {
+    if (selectedTemplate) {
+      fetchTemplateDetails();
+    }
+  }, [selectedTemplate, fetchTemplateDetails]);
 
   const handlePreviewReport = async () => {
     if (!selectedTemplate) {

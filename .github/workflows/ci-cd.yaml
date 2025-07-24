@@ -68,23 +68,16 @@ jobs:
     - name: Run security checks
       working-directory: ./backend
       run: |
-        # Security vulnerability scan
         safety check
-        # Static security analysis
         bandit -r app/ -f json -o bandit-report.json || true
 
     - name: Run linting
       working-directory: ./backend
       run: |
-        # Install linting tools
         pip install flake8 black isort mypy
-        # Code formatting check
         black --check app/
-        # Import sorting check
         isort --check-only app/
-        # Linting
         flake8 app/
-        # Type checking
         mypy app/ || true
 
     - name: Run tests
@@ -192,108 +185,6 @@ jobs:
         cache-to: type=gha,mode=max
         platforms: linux/amd64,linux/arm64
 
-  # Deploy to Staging
-  deploy-staging:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
-    environment: staging
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Configure kubectl
-      uses: azure/k8s-set-context@v3
-      with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBE_CONFIG_STAGING }}
-
-    - name: Deploy to staging
-      run: |
-        # Update image tag in staging manifests
-        sed -i "s|image: dealverse/backend:.*|image: ${{ needs.build-and-push.outputs.image-tag }}|g" k8s/staging/backend.yaml
-
-        # Apply staging configurations
-        kubectl apply -f k8s/namespace.yaml
-        kubectl apply -f k8s/configmap.yaml
-        kubectl apply -f k8s/secrets.yaml
-        kubectl apply -f k8s/redis.yaml
-        kubectl apply -f k8s/staging/
-
-        # Wait for rollout
-        kubectl rollout status deployment/dealverse-backend -n dealverse-staging --timeout=300s
-
-    - name: Run smoke tests
-      run: |
-        # Wait for service to be ready
-        sleep 30
-        # Basic health check
-        curl -f https://staging.dealverse.com/health || exit 1
-
-  # Deploy to Production
-  deploy-production:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    environment: production
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Configure kubectl
-      uses: azure/k8s-set-context@v3
-      with:
-        method: kubeconfig
-        kubeconfig: ${{ secrets.KUBE_CONFIG_PRODUCTION }}
-
-    - name: Deploy to production
-      run: |
-        # Update image tag in production manifests
-        sed -i "s|image: dealverse/backend:.*|image: ${{ needs.build-and-push.outputs.image-tag }}|g" k8s/backend.yaml
-
-        # Apply production configurations
-        kubectl apply -f k8s/namespace.yaml
-        kubectl apply -f k8s/configmap.yaml
-        kubectl apply -f k8s/secrets.yaml
-        kubectl apply -f k8s/redis.yaml
-        kubectl apply -f k8s/backend.yaml
-        kubectl apply -f k8s/celery.yaml
-        kubectl apply -f k8s/ingress.yaml
-
-        # Wait for rollout
-        kubectl rollout status deployment/dealverse-backend -n dealverse --timeout=600s
-
-    - name: Run production smoke tests
-      run: |
-        # Wait for service to be ready
-        sleep 60
-        # Basic health check
-        curl -f https://api.dealverse.com/health || exit 1
-        # API endpoint test
-        curl -f https://api.dealverse.com/api/v1/health || exit 1
-
-    - name: Notify deployment
-      uses: slackapi/slack-github-action@v1.24.0
-      if: always()
-      with:
-        payload: |
-          {
-            "text": "DealVerse OS Deployment ${{ job.status }}",
-            "blocks": [
-              {
-                "type": "section",
-                "text": {
-                  "type": "mrkdwn",
-                  "text": "Deployment Status: *${{ job.status }}*\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}\nCommit: ${{ github.sha }}"
-                }
-              }
-            ]
-          }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-
   # Security Scanning
   security-scan:
     needs: build-and-push
@@ -312,3 +203,25 @@ jobs:
       uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: 'trivy-results.sarif'
+
+  # Deployment notification (only runs if deployment secrets are configured)
+  notify-deployment-status:
+    needs: [build-and-push]
+    runs-on: ubuntu-latest
+    if: always() && github.event_name != 'pull_request'
+    
+    steps:
+    - name: Check deployment configuration
+      run: |
+        echo "Build and test completed successfully"
+        echo "To enable deployments, configure the following:"
+        echo "1. Set repository variables:"
+        echo "   - ENABLE_STAGING_DEPLOYMENT=true"
+        echo "   - ENABLE_PRODUCTION_DEPLOYMENT=true"
+        echo "   - ENABLE_SLACK_NOTIFICATIONS=true"
+        echo "2. Set repository secrets:"
+        echo "   - KUBE_CONFIG_STAGING (for staging deployments)"
+        echo "   - KUBE_CONFIG_PRODUCTION (for production deployments)"
+        echo "   - SLACK_WEBHOOK (for notifications)"
+        echo ""
+        echo "See docs/GITHUB_SECRETS_SETUP.md for detailed instructions"

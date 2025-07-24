@@ -78,7 +78,7 @@ export function useFinancialModels(options: UseFinancialModelsOptions = {}) {
         throw new Error(response.error);
       }
 
-      const modelsData = response.data || [];
+      const modelsData = (response.data || []) as FinancialModel[];
       setModels(modelsData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch financial models');
@@ -95,7 +95,7 @@ export function useFinancialModels(options: UseFinancialModelsOptions = {}) {
         throw new Error(response.error);
       }
 
-      setStatistics(response.data);
+      setStatistics(response.data as ModelStatistics);
     } catch (err) {
       console.error('Failed to fetch model statistics:', err);
     }

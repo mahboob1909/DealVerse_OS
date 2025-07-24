@@ -3,13 +3,45 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle, Loader2 } from "lucide-react"
+import { CheckCircle, Loader2, Mail } from "lucide-react"
 import { SignInButton, SignUpButton, SignedIn, SignedOut, useUser } from '@clerk/nextjs'
-import { openCheckout, FASTSPRING_PRODUCTS, formatPrice } from "@/lib/fastspring"
 import Link from "next/link"
 
+// Temporary pricing data for deployment without FastSpring
+const PRICING_PRODUCTS = {
+  'professional-monthly': {
+    name: 'DealVerse OS Professional',
+    price: 25.00,
+    currency: 'USD',
+    billingCycle: 'monthly',
+    description: 'AI-powered investment banking platform - Professional plan'
+  },
+  'professional-annual': {
+    name: 'DealVerse OS Professional Annual',
+    price: 20.00, // Monthly equivalent
+    currency: 'USD',
+    billingCycle: 'annual',
+    description: 'AI-powered investment banking platform - Annual plan (Save 20%)'
+  },
+  'enterprise': {
+    name: 'DealVerse OS Enterprise',
+    price: 0,
+    currency: 'USD',
+    billingCycle: 'annual',
+    description: 'Enterprise-grade solution with custom features'
+  }
+}
+
+// Format price for display
+function formatPrice(price: number, currency: string = 'USD'): string {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+  }).format(price);
+}
+
 interface PricingCardProps {
-  planKey: keyof typeof FASTSPRING_PRODUCTS
+  planKey: keyof typeof PRICING_PRODUCTS
   title: string
   description: string
   price: number
@@ -41,15 +73,12 @@ export function PricingCard({
       return
     }
 
-    try {
-      setIsLoading(true)
-      await openCheckout(planKey, user?.primaryEmailAddress?.emailAddress)
-    } catch (error) {
-      console.error('Failed to open checkout:', error)
-      // You could show an error toast here
-    } finally {
+    // For deployment without FastSpring, redirect to contact sales
+    setIsLoading(true)
+    setTimeout(() => {
+      window.location.href = `mailto:sales@dealverse.com?subject=Interest in ${title} Plan&body=Hi, I'm interested in the ${title} plan. Please contact me with more information about pricing and setup.`
       setIsLoading(false)
-    }
+    }, 500)
   }
 
   const borderClass = isPopular 
@@ -177,7 +206,7 @@ export function PricingCard({
                   Processing...
                 </>
               ) : (
-                "Subscribe Now"
+                "Contact Sales"
               )}
             </Button>
           )}

@@ -228,7 +228,7 @@ export function useAnalytics(options: UseAnalyticsOptions = {}): UseAnalyticsRet
         throw new Error(response.error);
       }
 
-      setDashboardAnalytics(response.data);
+      setDashboardAnalytics(response.data as DashboardAnalytics);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch dashboard analytics';
       setError(errorMessage);
@@ -250,7 +250,7 @@ export function useAnalytics(options: UseAnalyticsOptions = {}): UseAnalyticsRet
         throw new Error(response.error);
       }
 
-      setDealsPerformance(response.data);
+      setDealsPerformance(response.data as DealsPerformance);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch deals performance';
       setError(errorMessage);
@@ -272,7 +272,7 @@ export function useAnalytics(options: UseAnalyticsOptions = {}): UseAnalyticsRet
         throw new Error(response.error);
       }
 
-      setClientInsights(response.data);
+      setClientInsights(response.data as ClientInsights);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch client insights';
       setError(errorMessage);
@@ -294,7 +294,7 @@ export function useAnalytics(options: UseAnalyticsOptions = {}): UseAnalyticsRet
         throw new Error(response.error);
       }
 
-      setTeamProductivity(response.data);
+      setTeamProductivity(response.data as TeamProductivity);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch team productivity';
       setError(errorMessage);
@@ -316,7 +316,7 @@ export function useAnalytics(options: UseAnalyticsOptions = {}): UseAnalyticsRet
         throw new Error(response.error);
       }
 
-      setExecutiveSummary(response.data);
+      setExecutiveSummary(response.data as ExecutiveSummary);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch executive summary';
       setError(errorMessage);

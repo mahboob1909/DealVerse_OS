@@ -20,7 +20,7 @@ from app.api.api_v1.endpoints import (
     websocket,
     reports,
     performance,
-    fastspring
+    # fastspring  # Temporarily disabled for deployment
 )
 
 # Create API router
@@ -43,4 +43,5 @@ api_router.include_router(ai_status.router, prefix="/ai", tags=["ai-service"])
 api_router.include_router(websocket.router, prefix="/ws", tags=["websocket"])
 api_router.include_router(reports.router, prefix="/reports", tags=["reports"])
 api_router.include_router(performance.router, prefix="/performance", tags=["performance"])
-api_router.include_router(fastspring.router, prefix="/fastspring", tags=["payments"])
+# Temporarily disabled for deployment without FastSpring
+# api_router.include_router(fastspring.router, prefix="/fastspring", tags=["payments"])

@@ -53,9 +53,10 @@ export function LiveCursors({
 
   // Cleanup timeouts on unmount
   useEffect(() => {
+    const timeouts = timeoutRefs.current;
     return () => {
-      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
-      timeoutRefs.current.clear();
+      timeouts.forEach(timeout => clearTimeout(timeout));
+      timeouts.clear();
     };
   }, []);
 
@@ -169,12 +170,13 @@ export function useCursorTracking(
   useEffect(() => {
     if (!enabled) return;
 
-    const handleMouseMove = (event: MouseEvent) => {
+    const handleMouseMove = (event: Event) => {
+      const mouseEvent = event as MouseEvent;
       const container = containerRef?.current || document.body;
       const containerBounds = container.getBoundingClientRect();
       
-      const x = event.clientX - containerBounds.left;
-      const y = event.clientY - containerBounds.top;
+      const x = mouseEvent.clientX - containerBounds.left;
+      const y = mouseEvent.clientY - containerBounds.top;
 
       // Throttle updates to avoid overwhelming the WebSocket
       if (throttleRef.current) {
@@ -193,7 +195,7 @@ export function useCursorTracking(
           updateCursorPosition({
             x,
             y,
-            element_id: (event.target as HTMLElement)?.id || undefined
+            element_id: (mouseEvent.target as HTMLElement)?.id || undefined
           });
         }
       }, 50); // Throttle to 20fps

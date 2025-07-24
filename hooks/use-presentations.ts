@@ -28,10 +28,10 @@ export function usePresentations(filters?: PresentationFilters) {
 
   // Memoize filters to prevent unnecessary re-renders
   const memoizedFilters = useMemo(() => filters, [
-    filters.status,
-    filters.presentation_type,
-    filters.limit,
-    filters.offset
+    filters?.status,
+    filters?.presentation_type,
+    filters?.limit,
+    filters?.skip
   ]);
 
   const fetchPresentations = useCallback(async () => {
@@ -49,7 +49,7 @@ export function usePresentations(filters?: PresentationFilters) {
         }
         setPresentations([]);
       } else {
-        setPresentations(Array.isArray(response) ? response : (response.data || []));
+        setPresentations(Array.isArray(response) ? response as Presentation[] : (response.data || []) as Presentation[]);
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch presentations';
@@ -155,7 +155,7 @@ export function usePresentation(id: string) {
         setError(response.error);
         setPresentation(null);
       } else {
-        setPresentation(response.data || response || null);
+        setPresentation((response.data || response || null) as Presentation | null);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch presentation');
@@ -194,7 +194,7 @@ export function usePresentationSlides(presentationId: string) {
         setError(response.error);
         setSlides([]);
       } else {
-        setSlides(Array.isArray(response) ? response : (response.data || []));
+        setSlides(Array.isArray(response) ? response as PresentationSlide[] : (response.data || []) as PresentationSlide[]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch slides');
@@ -282,7 +282,7 @@ export function usePresentationTemplates(filters?: TemplateFilters) {
     filters?.public_only,
     filters?.category,
     filters?.limit,
-    filters?.offset
+    filters?.skip
   ]);
 
   const fetchTemplates = useCallback(async () => {
@@ -300,7 +300,7 @@ export function usePresentationTemplates(filters?: TemplateFilters) {
         }
         setTemplates([]);
       } else {
-        setTemplates(Array.isArray(response) ? response : (response.data || []));
+        setTemplates(Array.isArray(response) ? response as PresentationTemplate[] : (response.data || []) as PresentationTemplate[]);
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch templates';
@@ -377,7 +377,7 @@ export function usePresentationComments(presentationId: string, filters?: Commen
         setError(response.error);
         setComments([]);
       } else {
-        setComments(Array.isArray(response) ? response : (response.data || []));
+        setComments(Array.isArray(response) ? response as PresentationComment[] : (response.data || []) as PresentationComment[]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch comments');

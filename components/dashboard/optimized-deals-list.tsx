@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VirtualTable, useVirtualScroll } from '@/components/ui/virtual-scroll'
-import { LazySection, LoadingSkeleton } from '@/components/ui/lazy-loader'
+// Removed lazy-loader import as it was causing build issues
 import { useOptimizedSearch, usePerformanceMonitor, useDebounce } from '@/hooks/use-performance'
 import { useRecentDeals } from '@/hooks/use-recent-deals'
 import { Deal } from '@/hooks/use-deals'
@@ -242,18 +242,18 @@ export function OptimizedDealsList({
   logRender('Rendering optimized deals list')
 
   if (loading && filteredDeals.length === 0) {
-    return <LoadingSkeleton type="table" className={className} />
+    return <div className={`animate-pulse bg-gray-200 h-64 rounded ${className}`}>Loading...</div>
   }
 
   return (
     <div className={cn("space-y-4", className)}>
-      <LazySection fallback={<LoadingSkeleton type="card" count={4} />}>
+      <div>
         {renderStats()}
-      </LazySection>
+      </div>
       
-      <LazySection fallback={<div className="h-12 bg-gray-100 rounded animate-pulse" />}>
+      <div>
         {renderFilters()}
-      </LazySection>
+      </div>
 
       <Card>
         <CardHeader>

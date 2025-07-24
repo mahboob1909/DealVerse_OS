@@ -183,7 +183,7 @@ export function useProspects(options: UseProspectsOptions = {}): UseProspectsRet
         return;
       }
 
-      const data = response.data || response;
+      const data = (response.data || response) as any;
       setProspects(data.prospects || []);
       setTotal(data.total || 0);
       setHasMore(data.has_more || false);
@@ -203,13 +203,13 @@ export function useProspects(options: UseProspectsOptions = {}): UseProspectsRet
         return;
       }
 
-      setStatistics(response.data || response);
+      setStatistics((response.data || response) as ProspectStatistics);
     } catch (err) {
       console.error('Failed to fetch prospect statistics:', err);
     }
   }, []);
 
-  const createProspect = async (data: Omit<Prospect, 'id' | 'created_at' | 'updated_at'>) => {
+  const createProspect = async (data: Omit<Prospect, 'id' | 'created_at' | 'updated_at'>): Promise<Prospect> => {
     try {
       const response = await apiClient.createProspect(data);
       
@@ -218,13 +218,13 @@ export function useProspects(options: UseProspectsOptions = {}): UseProspectsRet
       }
 
       await fetchProspects(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as Prospect;
     } catch (err) {
       throw err;
     }
   };
 
-  const updateProspect = async (id: string, data: Partial<Prospect>) => {
+  const updateProspect = async (id: string, data: Partial<Prospect>): Promise<Prospect> => {
     try {
       const response = await apiClient.updateProspect(id, data);
       
@@ -233,7 +233,7 @@ export function useProspects(options: UseProspectsOptions = {}): UseProspectsRet
       }
 
       await fetchProspects(); // Refresh list
-      return response.data || response;
+      return (response.data || response) as Prospect;
     } catch (err) {
       throw err;
     }
@@ -261,7 +261,7 @@ export function useProspects(options: UseProspectsOptions = {}): UseProspectsRet
         throw new Error(response.error);
       }
 
-      return response.data || response;
+      return (response.data || response) as ProspectAnalysisResponse;
     } catch (err) {
       throw err;
     }
@@ -294,7 +294,7 @@ export function useProspects(options: UseProspectsOptions = {}): UseProspectsRet
         throw new Error(response.error);
       }
 
-      return response.data || response;
+      return (response.data || response) as MarketIntelligenceResponse;
     } catch (err) {
       throw err;
     }

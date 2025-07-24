@@ -165,7 +165,7 @@ export function useUserPresence(
     const presenceUpdate = {
       user_id: user.id,
       user_name: `${user.first_name} ${user.last_name}`,
-      avatar_url: user.avatar_url,
+      avatar_url: (user as any).avatar_url || undefined,
       status: 'online',
       current_module: module,
       current_page: page,

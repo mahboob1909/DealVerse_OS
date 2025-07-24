@@ -85,7 +85,7 @@ export function useDocuments(options: UseDocumentsOptions = {}) {
         throw new Error(response.error);
       }
 
-      const docs = response.data || [];
+      const docs = (response.data || []) as Document[];
       setDocuments(docs);
       
       // Transform documents into tree structure

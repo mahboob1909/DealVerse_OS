@@ -70,8 +70,7 @@ export function NotificationCenter({
     clearFilters,
     preferences,
     updatePreferences,
-    isConnected,
-    connectionError
+    isConnected
   } = useNotifications({ user_id: userId, max_notifications: 50 });
 
   const getCategoryIcon = (category: LiveNotification['category']) => {
@@ -97,7 +96,6 @@ export function NotificationCenter({
   };
 
   const getConnectionStatus = () => {
-    if (connectionError) return { icon: <XCircle className="h-4 w-4" />, text: 'Connection Error', color: 'text-red-600' };
     if (!isConnected) return { icon: <AlertTriangle className="h-4 w-4" />, text: 'Disconnected', color: 'text-yellow-600' };
     return { icon: <CheckCircle className="h-4 w-4" />, text: 'Connected', color: 'text-green-600' };
   };

@@ -78,18 +78,18 @@ export function ConflictResolution({
 
   const getStrategyIcon = (strategy: ConflictType['resolution_strategy']) => {
     switch (strategy) {
-      case 'auto': return <GitMerge className="h-4 w-4" />;
-      case 'manual': return <Edit3 className="h-4 w-4" />;
-      case 'last_writer_wins': return <User className="h-4 w-4" />;
+      case 'merge': return <GitMerge className="h-4 w-4" />;
+      case 'manual_resolve': return <Edit3 className="h-4 w-4" />;
+      case 'choose_version': return <User className="h-4 w-4" />;
       default: return <AlertTriangle className="h-4 w-4" />;
     }
   };
 
   const getStrategyDescription = (strategy: ConflictType['resolution_strategy']) => {
     switch (strategy) {
-      case 'auto': return 'Automatically merge compatible changes';
-      case 'manual': return 'Manually resolve conflicts with custom content';
-      case 'last_writer_wins': return 'Accept the most recent change';
+      case 'merge': return 'Automatically merge compatible changes';
+      case 'manual_resolve': return 'Manually resolve conflicts with custom content';
+      case 'choose_version': return 'Accept the most recent change';
       default: return 'Unknown resolution strategy';
     }
   };
@@ -162,13 +162,17 @@ export function ConflictResolution({
                           </span>
                         </div>
                         <span className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(conflict.detected_at), { addSuffix: true })}
+                          {conflict.resolved_at ? formatDistanceToNow(new Date(conflict.resolved_at), { addSuffix: true }) : 'Recently detected'}
                         </span>
                       </div>
 
                       <div className="text-sm text-gray-600 mb-2">
-                        Position: {conflict.position.start}-{conflict.position.end}
-                        {conflict.position.page && ` (Page ${conflict.position.page})`}
+                        {conflict.conflicting_edits.length > 0 && conflict.conflicting_edits[0].position && (
+                          <>
+                            Position: {conflict.conflicting_edits[0].position.start}-{conflict.conflicting_edits[0].position.end}
+                            {conflict.conflicting_edits[0].position.page && ` (Page ${conflict.conflicting_edits[0].position.page})`}
+                          </>
+                        )}
                       </div>
 
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -200,7 +204,7 @@ export function ConflictResolution({
                   <div className="flex items-center gap-2 mb-2">
                     <Clock className="h-4 w-4 text-gray-500" />
                     <span className="text-sm font-medium">
-                      Detected {formatDistanceToNow(new Date(selectedConflictData.detected_at), { addSuffix: true })}
+                      {selectedConflictData.resolved_at ? `Resolved ${formatDistanceToNow(new Date(selectedConflictData.resolved_at), { addSuffix: true })}` : 'Recently detected'}
                     </span>
                   </div>
                   <div className="text-sm text-gray-600">
@@ -251,14 +255,14 @@ export function ConflictResolution({
                     <TabsContent value="auto" className="space-y-3">
                       <div className="p-3 bg-blue-50 rounded-lg">
                         <div className="flex items-center gap-2 mb-2">
-                          {getStrategyIcon('auto')}
+                          {getStrategyIcon('merge')}
                           <span className="text-sm font-medium">Automatic Merge</span>
                         </div>
                         <p className="text-sm text-gray-600 mb-3">
-                          {getStrategyDescription('auto')}
+                          {getStrategyDescription('merge')}
                         </p>
                         <Button
-                          onClick={() => handleResolveConflict(selectedConflictData.conflict_id, 'auto')}
+                          onClick={() => handleResolveConflict(selectedConflictData.conflict_id, 'merge')}
                           disabled={isResolving}
                           className="w-full"
                         >
@@ -270,11 +274,11 @@ export function ConflictResolution({
                     <TabsContent value="last_writer" className="space-y-3">
                       <div className="p-3 bg-yellow-50 rounded-lg">
                         <div className="flex items-center gap-2 mb-2">
-                          {getStrategyIcon('last_writer_wins')}
+                          {getStrategyIcon('choose_version')}
                           <span className="text-sm font-medium">Last Writer Wins</span>
                         </div>
                         <p className="text-sm text-gray-600 mb-3">
-                          {getStrategyDescription('last_writer_wins')}
+                          {getStrategyDescription('choose_version')}
                         </p>
                         
                         {/* Show the last edit */}
@@ -288,7 +292,7 @@ export function ConflictResolution({
                         )}
                         
                         <Button
-                          onClick={() => handleResolveConflict(selectedConflictData.conflict_id, 'last_writer_wins')}
+                          onClick={() => handleResolveConflict(selectedConflictData.conflict_id, 'choose_version')}
                           disabled={isResolving}
                           className="w-full"
                           variant="outline"
@@ -301,11 +305,11 @@ export function ConflictResolution({
                     <TabsContent value="manual" className="space-y-3">
                       <div className="p-3 bg-green-50 rounded-lg">
                         <div className="flex items-center gap-2 mb-2">
-                          {getStrategyIcon('manual')}
+                          {getStrategyIcon('manual_resolve')}
                           <span className="text-sm font-medium">Manual Resolution</span>
                         </div>
                         <p className="text-sm text-gray-600 mb-3">
-                          {getStrategyDescription('manual')}
+                          {getStrategyDescription('manual_resolve')}
                         </p>
                         
                         <Textarea
@@ -319,7 +323,7 @@ export function ConflictResolution({
                         <Button
                           onClick={() => handleResolveConflict(
                             selectedConflictData.conflict_id, 
-                            'manual', 
+                            'manual_resolve', 
                             customResolution
                           )}
                           disabled={isResolving || !customResolution.trim()}

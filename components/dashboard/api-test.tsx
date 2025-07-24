@@ -22,13 +22,13 @@ export function ApiTest() {
     
     try {
       const response = await apiClient.login(email, password);
-      if (response.success) {
+      if (response.data) {
         addResult('✅ Login successful!');
         
         // Test getting current user
         const userResponse = await apiClient.getCurrentUser();
         if (userResponse.data) {
-          addResult(`✅ Got user: ${userResponse.data.email}`);
+          addResult(`✅ Got user: ${(userResponse.data as any)?.email || 'Unknown'}`);
         } else {
           addResult(`❌ Failed to get user: ${userResponse.error}`);
         }
@@ -36,7 +36,7 @@ export function ApiTest() {
         // Test presentations endpoint
         const presResponse = await apiClient.getPresentations();
         if (presResponse.data) {
-          addResult(`✅ Got presentations: ${presResponse.data.length} items`);
+          addResult(`✅ Got presentations: ${(presResponse.data as any)?.length || 0} items`);
         } else {
           addResult(`❌ Failed to get presentations: ${presResponse.error}`);
         }
@@ -44,7 +44,7 @@ export function ApiTest() {
         // Test templates endpoint
         const templatesResponse = await apiClient.getPresentationTemplates();
         if (templatesResponse.data) {
-          addResult(`✅ Got templates: ${templatesResponse.data.length} items`);
+          addResult(`✅ Got templates: ${(templatesResponse.data as any)?.length || 0} items`);
         } else {
           addResult(`❌ Failed to get templates: ${templatesResponse.error}`);
         }
