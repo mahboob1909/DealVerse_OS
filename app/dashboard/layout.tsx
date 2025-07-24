@@ -5,6 +5,9 @@ import Header from "@/components/header";
 import { withAuth } from "@/lib/auth-context";
 import { useState } from "react";
 
+// Force dynamic rendering for all dashboard pages
+export const dynamic = 'force-dynamic';
+
 function DashboardLayout({
   children,
 }: {

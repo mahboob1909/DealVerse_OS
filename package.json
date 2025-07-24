@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "build:next": "next build",
+    "build": "cross-env NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation --no-warnings\" next build",
+    "build:next": "cross-env NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation --no-warnings\" next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit --skipLibCheck",
@@ -64,6 +64,7 @@
     "@types/react-dom": "^18.2.17",
     "autoprefixer": "^10.4.16",
     "babel-jest": "^30.0.4",
+    "cross-env": "^7.0.3",
     "eslint": "^8.55.0",
     "eslint-config-next": "^14.2.30",
     "jest": "^30.0.4",

@@ -11,6 +11,14 @@ const nextConfig = {
     ignoreDuringBuilds: true,
   },
 
+  // Disable static generation for auth-protected pages
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
+
+  // Configure output for Vercel
+  output: 'standalone',
+
   // Performance optimizations
   compiler: {
     // Remove console.log in production
