@@ -58,7 +58,7 @@
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
-    "@types/node": "^20.10.4",
+    "@types/node": "^22.10.0",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.17",
     "autoprefixer": "^10.4.16",
@@ -67,9 +67,9 @@
     "eslint-config-next": "^14.2.30",
     "jest": "^30.0.4",
     "jest-environment-jsdom": "^30.0.4",
-    "postcss": "^8.4.32",
+    "postcss": "^8.4.49",
     "sonner": "^2.0.6",
-    "tailwindcss": "^3.3.6",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.3.3"
   }
 }
