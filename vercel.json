@@ -1,8 +1,8 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build:vercel",
+  "buildCommand": "npm run build",
   "outputDirectory": ".next",
-  "installCommand": "npm install --silent --no-audit --no-fund --loglevel=silent --no-warnings --no-optional 2>/dev/null || npm install --silent --no-audit --no-fund --loglevel=error",
+  "installCommand": "npm install --silent --no-audit --no-fund --loglevel=silent --no-warnings --no-optional --no-progress --no-update-notifier 2>/dev/null || npm install --silent --no-audit --no-fund --loglevel=error",
   "devCommand": "npm run dev",
   "env": {
     "NPM_CONFIG_AUDIT": "false",
@@ -11,11 +11,14 @@
     "NPM_CONFIG_PROGRESS": "false",
     "NPM_CONFIG_UPDATE_NOTIFIER": "false",
     "NPM_CONFIG_OPTIONAL": "false",
+    "NPM_CONFIG_WARNINGS": "false",
     "DISABLE_OPENCOLLECTIVE": "true",
     "ADBLOCK": "true",
     "NODE_OPTIONS": "--no-deprecation --no-warnings --disable-warning=ExperimentalWarning",
     "NODE_NO_WARNINGS": "1",
-    "CI": "true"
+    "CI": "true",
+    "SUPPRESS_NO_CONFIG_WARNING": "true",
+    "NO_UPDATE_NOTIFIER": "true"
   },
   "functions": {
     "app/**": {
