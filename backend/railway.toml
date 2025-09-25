@@ -1,0 +1,15 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[env]
+# These will be set in Railway dashboard
+# NEON_DATABASE_URL = "postgresql://..."
+# SECRET_KEY = "..."
+# OPENROUTER_API_KEY = "..."

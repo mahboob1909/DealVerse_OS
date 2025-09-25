@@ -1,8 +1,15 @@
 ﻿import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
-import { PricingCard } from "@/components/pricing-card"
+import {
+  DynamicSignInButton,
+  DynamicSignUpButton,
+  DynamicSignedIn,
+  DynamicSignedOut,
+  DynamicUserButton
+} from '@/components/dynamic-auth'
+// Temporarily disabled for static export
+// import { PricingCard } from "@/components/pricing-card"
 import {
   Search,
   FileText,
@@ -44,34 +51,22 @@ export default function Home() {
               <h1 className="font-bold text-xl text-white">DealVerse OS</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <SignedOut>
-                <SignInButton mode="modal">
+              <DynamicSignedOut>
+                <DynamicSignInButton>
                   <Button variant="ghost" className="text-white hover:bg-dealverse-blue/10">
                     Sign In
                   </Button>
-                </SignInButton>
-                <SignUpButton mode="modal">
+                </DynamicSignInButton>
+                <DynamicSignUpButton>
                   <Button className="bg-dealverse-blue hover:bg-dealverse-blue/90 text-white">
                     Get Started
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
-                </SignUpButton>
-              </SignedOut>
-              <SignedIn>
-                <Link href="/dashboard">
-                  <Button className="bg-dealverse-blue hover:bg-dealverse-blue/90 text-white mr-2">
-                    Dashboard
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
-                <UserButton
-                  appearance={{
-                    elements: {
-                      avatarBox: "w-8 h-8"
-                    }
-                  }}
-                />
-              </SignedIn>
+                </DynamicSignUpButton>
+              </DynamicSignedOut>
+              <DynamicSignedIn>
+                <DynamicUserButton />
+              </DynamicSignedIn>
             </div>
           </div>
         </div>
@@ -98,22 +93,22 @@ export default function Home() {
               automated due diligence, advanced valuation modeling, and comprehensive compliance management.
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in-up delay-400">
-              <SignedOut>
-                <SignUpButton mode="modal">
+              <DynamicSignedOut>
+                <DynamicSignUpButton>
                   <Button size="lg" className="bg-dealverse-blue hover:bg-dealverse-blue/90 text-white px-10 py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     Start Free Trial
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
-                </SignUpButton>
-              </SignedOut>
-              <SignedIn>
+                </DynamicSignUpButton>
+              </DynamicSignedOut>
+              <DynamicSignedIn>
                 <Link href="/dashboard">
                   <Button size="lg" className="bg-dealverse-blue hover:bg-dealverse-blue/90 text-white px-10 py-6 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     Go to Dashboard
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
-              </SignedIn>
+              </DynamicSignedIn>
               <Button size="lg" variant="outline" className="border-2 border-dealverse-blue text-dealverse-blue hover:bg-dealverse-blue/10 px-10 py-6 text-lg font-semibold backdrop-blur-sm transition-all duration-300 transform hover:scale-105">
                 Watch Demo
               </Button>
@@ -312,54 +307,10 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {/* Monthly Plan */}
-            <PricingCard
-              planKey="professional-monthly"
-              title="Professional"
-              description="Perfect for individual professionals"
-              price={25}
-              period="month"
-              features={[
-                "All 5 core modules",
-                "AI-powered analysis",
-                "Real-time collaboration",
-                "Standard support"
-              ]}
-            />
-
-            {/* Annual Plan */}
-            <PricingCard
-              planKey="professional-annual"
-              title="Professional Annual"
-              description="Save 20% with annual billing"
-              price={20}
-              period="month"
-              features={[
-                "All 5 core modules",
-                "AI-powered analysis",
-                "Real-time collaboration",
-                "Priority support",
-                "Advanced analytics"
-              ]}
-              isPopular={true}
-            />
-
-            {/* Enterprise Plan */}
-            <PricingCard
-              planKey="enterprise"
-              title="Enterprise"
-              description="For large teams and organizations"
-              price={0}
-              period="year"
-              features={[
-                "Everything in Professional",
-                "Custom integrations",
-                "Dedicated support",
-                "On-premise deployment",
-                "SLA guarantees"
-              ]}
-              isEnterprise={true}
-            />
+            {/* Temporarily disabled for static export */}
+            <div className="text-center text-white col-span-3">
+              <p>Pricing cards will be available after deployment</p>
+            </div>
           </div>
         </div>
       </section>
@@ -381,22 +332,11 @@ export default function Home() {
                 due diligence, valuation modeling, and compliance management.
               </p>
               <div className="flex space-x-4">
-                <SignedOut>
-                  <SignUpButton mode="modal">
-                    <Button className="bg-dealverse-blue hover:bg-dealverse-blue/90 text-white">
-                      Start Free Trial
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </SignUpButton>
-                </SignedOut>
-                <SignedIn>
-                  <Link href="/dashboard">
-                    <Button className="bg-dealverse-blue hover:bg-dealverse-blue/90 text-white">
-                      Go to Dashboard
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </Link>
-                </SignedIn>
+                {/* Temporarily disabled for static export */}
+                <Button className="bg-dealverse-blue hover:bg-dealverse-blue/90 text-white">
+                  Start Free Trial
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
             </div>
 

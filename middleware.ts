@@ -1,6 +1,8 @@
-import { clerkMiddleware } from "@clerk/nextjs/server";
+// Temporarily disable middleware for static export
+// This will be re-enabled after successful Cloudflare Pages deployment
+// import { clerkMiddleware } from "@clerk/nextjs/server";
 
-export default clerkMiddleware();
+// export default clerkMiddleware();
 
 export const config = {
   matcher: [

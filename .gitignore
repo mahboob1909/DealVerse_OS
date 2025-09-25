@@ -131,10 +131,10 @@ venv.bak/
 backend/temp_uploads/
 uploads/
 
-# Docker
-.dockerignore
-Dockerfile
-docker-compose.yml
+# Docker (keep Dockerfile and docker-compose.yml for deployment)
+# .dockerignore
+# Dockerfile
+# docker-compose.yml
 
 # Kubernetes
 k8s/

@@ -7,6 +7,7 @@
     "build": "cross-env NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation --no-warnings --disable-warning=ExperimentalWarning\" next build",
     "build:next": "cross-env NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation --no-warnings\" next build",
     "build:vercel": "cross-env CI=true NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation --no-warnings --disable-warning=ExperimentalWarning\" next build || next build",
+    "build:cloudflare": "cross-env CI=true NEXT_PUBLIC_STATIC_EXPORT=true NODE_NO_WARNINGS=1 NODE_OPTIONS=\"--no-deprecation --no-warnings --disable-warning=ExperimentalWarning\" next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit --skipLibCheck",

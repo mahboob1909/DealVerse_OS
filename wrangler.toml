@@ -1,0 +1,23 @@
+# Cloudflare Pages Configuration for DealVerse OS
+name = "dealverse-os"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "out"
+
+[env.production]
+# Environment variables for production
+# Set these in Cloudflare Pages dashboard:
+# NEXT_PUBLIC_API_URL = "https://your-backend-url.com/api/v1"
+# NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = "pk_test_..."
+# CLERK_SECRET_KEY = "sk_test_..."
+# NEXT_PUBLIC_CLERK_SIGN_IN_URL = "/sign-in"
+# NEXT_PUBLIC_CLERK_SIGN_UP_URL = "/sign-up"
+# NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL = "/dashboard"
+# NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL = "/dashboard"
+
+[env.preview]
+# Environment variables for preview deployments
+# Same as production but can use different API URL for testing
+
+# Note: Headers and redirects should be configured in Cloudflare Pages dashboard
+# Custom headers for security and performance can be set in Pages settings
+# Cache rules can be configured in Cloudflare dashboard

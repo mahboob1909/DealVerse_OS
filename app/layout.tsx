@@ -2,8 +2,9 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter, JetBrains_Mono } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
-import { ClerkProvider } from '@clerk/nextjs'
-import { AuthProvider } from '@/lib/auth-context'
+import { AuthWrapper } from '@/components/auth-wrapper'
+// Temporarily disabled for static export
+// import { AuthProvider } from '@/lib/auth-context'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <ClerkProvider>
+    <AuthWrapper>
       <html lang="en" suppressHydrationWarning>
         <body className={`${inter.className} ${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
           <ThemeProvider
@@ -37,12 +38,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <AuthProvider>
-              {children}
-            </AuthProvider>
+            {/* Temporarily disabled for static export */}
+            {children}
           </ThemeProvider>
         </body>
       </html>
-    </ClerkProvider>
+    </AuthWrapper>
   )
 }

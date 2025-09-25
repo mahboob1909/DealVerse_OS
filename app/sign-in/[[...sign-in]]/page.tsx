@@ -1,6 +1,10 @@
-import { SignIn } from '@clerk/nextjs'
+// Required for static export
+export async function generateStaticParams() {
+  return [{ 'sign-in': [] }]
+}
 
 export default function Page() {
+  // Temporarily show placeholder for static export
   return (
     <div className="min-h-screen bg-gradient-to-br from-dealverse-navy via-dealverse-navy to-dealverse-dark-gray flex items-center justify-center p-4">
       <div className="w-full max-w-md">
@@ -9,22 +13,12 @@ export default function Page() {
             <span className="text-white font-bold text-xl">DV</span>
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-dealverse-light-gray">Sign in to your DealVerse OS account</p>
+          <p className="text-dealverse-light-gray">Authentication will be available after deployment</p>
         </div>
-        <SignIn
-          appearance={{
-            elements: {
-              formButtonPrimary: 'bg-dealverse-blue hover:bg-dealverse-blue/90',
-              card: 'bg-dealverse-navy/50 border-dealverse-blue/20',
-              headerTitle: 'text-white',
-              headerSubtitle: 'text-dealverse-light-gray',
-              socialButtonsBlockButton: 'border-dealverse-blue/20 text-white hover:bg-dealverse-blue/10',
-              formFieldLabel: 'text-white',
-              formFieldInput: 'bg-dealverse-dark-gray/50 border-dealverse-blue/20 text-white',
-              footerActionLink: 'text-dealverse-blue hover:text-dealverse-blue/80'
-            }
-          }}
-        />
+        <div className="bg-dealverse-navy/50 border border-dealverse-blue/20 rounded-lg p-8 text-center">
+          <p className="text-white mb-4">Sign in functionality will be enabled in production</p>
+          <a href="/" className="text-dealverse-blue hover:text-dealverse-blue/80">← Back to Home</a>
+        </div>
       </div>
     </div>
   )

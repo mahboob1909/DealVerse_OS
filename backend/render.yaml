@@ -1,0 +1,60 @@
+services:
+  - type: web
+    name: dealverse-os-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: NEON_DATABASE_URL
+        value: postgresql://neondb_owner:npg_V70ClUBEgqiZ@ep-royal-shadow-a1gedm82-pooler.ap-southeast-1.aws.neon.tech/dealverse_db?sslmode=require&channel_binding=require
+      - key: DATABASE_URL
+        fromService:
+          type: web
+          name: dealverse-os-backend
+          envVarKey: NEON_DATABASE_URL
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: 7
+      - key: API_V1_STR
+        value: /api/v1
+      - key: OPENROUTER_API_KEY
+        value: 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
+      - key: OPENROUTER_MODEL
+        value: deepseek/deepseek-r1-0528:free
+      - key: OPENROUTER_MAX_TOKENS
+        value: 4000
+      - key: OPENROUTER_TEMPERATURE
+        value: 0.1
+      - key: OPENROUTER_BASE_URL
+        value: https://openrouter.ai/api/v1
+      - key: OPENROUTER_SITE_URL
+        value: https://dealverse.com
+      - key: OPENROUTER_SITE_NAME
+        value: DealVerse OS
+      - key: AI_PROVIDER
+        value: openrouter
+      - key: AI_ENABLE_FALLBACK
+        value: true
+      - key: AI_REQUEST_TIMEOUT
+        value: 60
+      - key: AI_MAX_RETRIES
+        value: 3
+      - key: LOG_LEVEL
+        value: INFO
+      - key: RATE_LIMIT_PER_MINUTE
+        value: 60
+      - key: ALLOWED_HOSTS
+        value: '["*"]'
+      - key: BACKEND_CORS_ORIGINS
+        value: '["https://7b2d90ba.dealverse-os.pages.dev", "https://dealverse-os.pages.dev", "http://localhost:3000", "http://localhost:3001"]'

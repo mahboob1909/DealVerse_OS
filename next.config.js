@@ -16,8 +16,18 @@ const nextConfig = {
     missingSuspenseWithCSRBailout: false,
   },
 
-  // Configure output for Vercel
-  output: 'standalone',
+  // Configure output for Cloudflare Pages (static export)
+  output: 'export',
+  trailingSlash: true,
+
+  // Disable image optimization for static export
+  images: {
+    unoptimized: true,
+    domains: ['res.cloudinary.com'],
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
 
   // Performance optimizations
   compiler: {
@@ -89,13 +99,7 @@ const nextConfig = {
     return config
   },
 
-  // Image optimization
-  images: {
-    domains: ['res.cloudinary.com'],
-    formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-  },
+  // Image optimization moved above
 
   // Compression
   compress: true,
