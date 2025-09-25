@@ -1,0 +1,28 @@
+# Temporarily disabled CI/CD workflow
+# This workflow is disabled to prevent billing issues
+# To re-enable: rename this file back to ci-cd.yaml
+
+name: CI/CD Disabled
+
+# Disable all triggers
+on: []
+
+jobs:
+  disabled-notice:
+    runs-on: ubuntu-latest
+    steps:
+    - name: CI/CD Disabled Notice
+      run: |
+        echo "⚠️ CI/CD Pipeline is temporarily disabled"
+        echo ""
+        echo "Reason: GitHub account billing issues"
+        echo ""
+        echo "To re-enable:"
+        echo "1. Resolve GitHub account billing issues"
+        echo "2. Rename ci-cd-disabled.yaml to ci-cd.yaml"
+        echo "3. Delete this file"
+        echo ""
+        echo "Current deployment strategy:"
+        echo "- Frontend: Cloudflare Pages (manual deployment)"
+        echo "- Backend: Render.com (manual deployment)"
+        echo "- Database: Neon.tech (already configured)"
