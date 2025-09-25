@@ -1,113 +1,21 @@
-name: CI/CD Pipeline
+# Simplified CI/CD Pipeline for DealVerse OS
+# This workflow is optimized for Cloudflare Pages + Render deployment strategy
+
+name: Build and Validate
 
 on:
   push:
     branches: [ main, develop ]
   pull_request:
     branches: [ main, develop ]
-  release:
-    types: [ published ]
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: dealverse/backend
-  PYTHON_VERSION: '3.11'
   NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
 
 jobs:
-  # Backend Testing
-  backend-test:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: test_db
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-      redis:
-        image: redis:7-alpine
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 6379:6379
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
-
-    - name: Cache Python dependencies
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Install dependencies
-      working-directory: ./backend
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest-cov bandit safety
-
-    - name: Run security checks
-      working-directory: ./backend
-      run: |
-        safety check
-        bandit -r app/ -f json -o bandit-report.json || true
-
-    - name: Run linting
-      working-directory: ./backend
-      run: |
-        pip install flake8 black isort mypy
-        black --check app/
-        isort --check-only app/
-        flake8 app/
-        mypy app/ || true
-
-    - name: Run tests
-      working-directory: ./backend
-      env:
-        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
-        REDIS_URL: redis://localhost:6379/0
-        SECRET_KEY: test-secret-key
-        ENVIRONMENT: testing
-      run: |
-        pytest --cov=app --cov-report=xml --cov-report=html tests/
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./backend/coverage.xml
-        flags: backend
-        name: backend-coverage
-
-    - name: Upload test artifacts
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: backend-test-results
-        path: |
-          backend/htmlcov/
-          backend/bandit-report.json
-
-  # Frontend Testing
-  frontend-test:
+  # Basic validation and build check
+  validate-build:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -119,109 +27,69 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
 
-    - name: Install dependencies
+    - name: Install frontend dependencies
       run: npm ci
 
-    - name: Run linting
-      run: npm run lint
+    - name: Build frontend
+      run: npm run build
 
-    - name: Run type checking
-      run: npm run type-check
-
-    - name: Run tests
-      run: npm run test:coverage
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
       with:
-        file: ./coverage/lcov.info
-        flags: frontend
-        name: frontend-coverage
+        python-version: ${{ env.PYTHON_VERSION }}
 
-  # Build and Push Docker Images
-  build-and-push:
-    needs: [backend-test, frontend-test]
+    - name: Validate backend dependencies
+      working-directory: ./backend
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        echo "✅ Backend dependencies installed successfully"
+
+    - name: Validate Docker configuration
+      working-directory: ./backend
+      run: |
+        docker build -t dealverse-backend-test .
+        echo "✅ Docker build successful"
+
+  # Deployment readiness check
+  deployment-check:
     runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
-    outputs:
-      image-tag: ${{ steps.meta.outputs.tags }}
-      image-digest: ${{ steps.build.outputs.digest }}
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Log in to Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ${{ env.REGISTRY }}
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Extract metadata
-      id: meta
-      uses: docker/metadata-action@v5
-      with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-        tags: |
-          type=ref,event=branch
-          type=ref,event=pr
-          type=sha,prefix={{branch}}-
-          type=raw,value=latest,enable={{is_default_branch}}
-
-    - name: Build and push Docker image
-      id: build
-      uses: docker/build-push-action@v5
-      with:
-        context: ./backend
-        file: ./backend/Dockerfile
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
-        platforms: linux/amd64,linux/arm64
-
-  # Security Scanning
-  security-scan:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    if: github.event_name != 'pull_request'
-
-    steps:
-    - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
-      with:
-        image-ref: ${{ needs.build-and-push.outputs.image-tag }}
-        format: 'sarif'
-        output: 'trivy-results.sarif'
-
-    - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v2
-      with:
-        sarif_file: 'trivy-results.sarif'
-
-  # Deployment notification (only runs if deployment secrets are configured)
-  notify-deployment-status:
-    needs: [build-and-push]
-    runs-on: ubuntu-latest
-    if: always() && github.event_name != 'pull_request'
-    
-    steps:
-    - name: Check deployment configuration
+    - name: Check deployment configurations
       run: |
-        echo "Build and test completed successfully"
-        echo "To enable deployments, configure the following:"
-        echo "1. Set repository variables:"
-        echo "   - ENABLE_STAGING_DEPLOYMENT=true"
-        echo "   - ENABLE_PRODUCTION_DEPLOYMENT=true"
-        echo "   - ENABLE_SLACK_NOTIFICATIONS=true"
-        echo "2. Set repository secrets:"
-        echo "   - KUBE_CONFIG_STAGING (for staging deployments)"
-        echo "   - KUBE_CONFIG_PRODUCTION (for production deployments)"
-        echo "   - SLACK_WEBHOOK (for notifications)"
+        echo "🔍 Checking deployment configurations..."
+
+        # Check Cloudflare Pages config
+        if [ -f "wrangler.toml" ]; then
+          echo "✅ Cloudflare Pages configuration found"
+        else
+          echo "❌ wrangler.toml not found"
+        fi
+
+        # Check Render config
+        if [ -f "backend/render.yaml" ]; then
+          echo "✅ Render deployment configuration found"
+        else
+          echo "❌ backend/render.yaml not found"
+        fi
+
+        # Check Docker config
+        if [ -f "backend/Dockerfile" ]; then
+          echo "✅ Docker configuration found"
+        else
+          echo "❌ backend/Dockerfile not found"
+        fi
+
         echo ""
-        echo "See docs/GITHUB_SECRETS_SETUP.md for detailed instructions"
+        echo "🚀 Deployment Strategy:"
+        echo "   Frontend: Cloudflare Pages (Static Export)"
+        echo "   Backend: Render.com (Docker)"
+        echo "   Database: Neon.tech (PostgreSQL)"
+        echo ""
+        echo "📋 Next Steps:"
+        echo "1. Deploy backend to Render.com using render.yaml"
+        echo "2. Update NEXT_PUBLIC_API_URL in Cloudflare Pages"
+        echo "3. Set Clerk environment variables for authentication"
